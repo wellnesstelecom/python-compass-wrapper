@@ -76,17 +76,15 @@ class TestCompass(TempDirEnvironmentMixin, TestCase):
     def setUp(self):
         self.load_dir()
         self.load_sass(name='test1', content=SASS1)
-        self.compass = Compass()
-
-    def test_compile(self):
-        config = {
+        self.compass = Compass({
             'sass_dir': self.sass_dir,
             'css_dir': self.css_dir,
             'boring': True,
             'quiet': True,
             'output_style': 'compressed',
-        }
-        self.compass.config = config
+        })
+
+    def test_compile(self):
         output = self.compass.compile()
         self.assertEquals(self.list_css(), ['test1.css'])
         with open(os.path.join(self.css_dir, 'test1.css')) as css:
@@ -94,3 +92,8 @@ class TestCompass(TempDirEnvironmentMixin, TestCase):
 
         self.load_sass(name='test2', content=SASS2)
         self.assertRaises(CompassError, self.compass.compile)
+
+    def test_compile_file(self):
+        self.load_sass(name='test2', content=SASS3)
+        self.compass.compile_file('test2')
+        self.assertEquals(self.list_css(), ['test2.css'])
