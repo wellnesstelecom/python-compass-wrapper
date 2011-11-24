@@ -11,10 +11,10 @@ BINARY = 'compass'
 class Wrapper(object):
 
     _command = [BINARY]
-    _extra_args = []
 
     def __init__(self, parser):
         self.parser = parser
+        self._extra_args = []
 
     def __call__(self):
         command = self._command + self.parser.dumps() + self.extra_args

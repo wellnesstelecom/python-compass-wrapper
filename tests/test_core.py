@@ -32,6 +32,10 @@ class TempDirEnvironmentMixin(object):
             lambda x: x.endswith('css'),
             os.listdir(self.css_dir))
 
+    def tearDown(self):
+        from shutil import rmtree
+        rmtree(self.temp_dir)
+
 
 class TestCompileValidator(TempDirEnvironmentMixin, TestCase):
 
@@ -97,3 +101,13 @@ class TestCompass(TempDirEnvironmentMixin, TestCase):
         self.load_sass(name='test2', content=SASS3)
         self.compass.compile_file('test2')
         self.assertEquals(self.list_css(), ['test2.css'])
+        self.assertRaises(CompassError, self.compass.compile_file, 'fake')
+
+    def test_compile_file_with_deep(self):
+        os.mkdir(os.path.join(self.sass_dir, 'dir1'))
+        os.mkdir(os.path.join(self.sass_dir, 'dir1', 'dir2'))
+        into_dir = os.path.join('dir1', 'dir2', 'deep')
+        self.load_sass(name=into_dir, content=SASS1)
+        self.compass.compile_file('deep')
+        self.assertEquals(os.listdir(
+            os.path.join(self.css_dir, 'dir1/dir2')), ['deep.css'])
