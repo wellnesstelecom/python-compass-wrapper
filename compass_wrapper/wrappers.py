@@ -41,10 +41,18 @@ class Compile(Wrapper):
 
     _command = [BINARY, 'compile']
 
-    def select(self, name, in_dir=None):
+    def _parse_file(self, name):
+        """ Return in_dir, search file """
+        if '/' in name:
+            bits = name.split('/')
+            return (os.path.join(*bits[0:-1]), "%s.sass" % bits[-1])
+        else:
+            return None, "%s.sass" % name
+
+    def select(self, name):
         sass_dir_in_config = self.parser.validator.get('sass_dir')
-        search_file = "%s.sass" % name
         assert sass_dir_in_config  # if assert, it's a bug
+        in_dir, search_file = self._parse_file(name)
         for root, dirs, files in os.walk(os.path.join(
             sass_dir_in_config, in_dir or '')):
             if search_file in files:
