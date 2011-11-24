@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
+
+from compass_wrapper.exceptions import ValidatorError
 from os import path
 import inspect
-
-
-class ValidationError(Exception):
-    pass
 
 
 class Validator(dict):
@@ -46,20 +44,20 @@ class Compile(Validator):
     def validate_sass_dir(self):
         sass_dir = self.get('sass_dir')
         if not sass_dir:
-            raise ValidationError("sass_dir argument doesn't exists")
+            raise ValidatorError("sass_dir argument doesn't exists")
         if not path.exists(sass_dir):
-            raise ValidationError(
+            raise ValidatorError(
                 "sass_dir: %s path doesn't exists" % sass_dir)
         if not path.isdir(sass_dir):
-            raise ValidationError(
+            raise ValidatorError(
                 "sass_dir: %s path isn't a directory" % sass_dir)
 
     def validate_css_dir(self):
         css_dir = self.get('css_dir')
         if not css_dir:
-            raise ValidationError("css_dir argument doesn't exists")
+            raise ValidatorError("css_dir argument doesn't exists")
         if not path.exists(css_dir):
-            raise ValidationError("css_dir: %s path doesn't exists" % css_dir)
+            raise ValidatorError("css_dir: %s path doesn't exists" % css_dir)
         if not path.isdir(css_dir):
-            raise ValidationError(
+            raise ValidatorError(
                 "css_dir: %s path isn't a directory" % css_dir)

@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-from wrappers import Wrapper
-import validators
-import parsers
+from compass_wrapper.wrappers import Wrapper
+from compass_wrapper import validators, parsers
 
 
 class Compass(object):
