@@ -61,3 +61,11 @@ class Compile(Validator):
         if not path.isdir(css_dir):
             raise ValidatorError(
                 "css_dir: %s path isn't a directory" % css_dir)
+
+    def validate_output_style(self):
+        output_style = self.get('output_style')
+        output_valid = ('nested', 'expanded', 'compact', 'compressed')
+        if output_style and output_style not in output_valid:
+            raise ValidatorError(
+                "output_style: %s invalid. Only accept %s" % (
+                    output_style, output_valid))

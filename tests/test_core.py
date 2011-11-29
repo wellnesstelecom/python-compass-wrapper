@@ -73,6 +73,12 @@ class TestCompileValidator(TempDirEnvironmentMixin, TestCase):
             'css_dir': self.css_dir,
         }
         self.assertRaises(ValidatorError, Compile, config)
+        config = {
+            'sass_dir': self.sass_dir,
+            'css_dir': self.css_dir,
+            'output_style': 'fake',
+        }
+        self.assertRaises(ValidatorError, Compile, config)
 
 
 class TestCompass(TempDirEnvironmentMixin, TestCase):
