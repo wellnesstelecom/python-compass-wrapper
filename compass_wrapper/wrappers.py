@@ -45,9 +45,9 @@ class Compile(Wrapper):
         """ Return in_dir, search file """
         if '/' in name:
             bits = name.split('/')
-            return (os.path.join(*bits[0:-1]), "%s.sass" % bits[-1])
+            return (os.path.join(*bits[0:-1]), bits[-1])
         else:
-            return None, "%s.sass" % name
+            return None, name
 
     def select(self, name):
         sass_dir_in_config = self.parser.validator.get('sass_dir')

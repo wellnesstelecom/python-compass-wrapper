@@ -105,7 +105,7 @@ class TestCompass(TempDirEnvironmentMixin, TestCase):
 
     def test_compile_file(self):
         self.load_sass(name='test2', content=SASS3)
-        self.compass.compile_file('test2')
+        self.compass.compile_file('test2.sass')
         self.assertEquals(self.list_css(), ['test2.css'])
         self.assertRaises(CompassError, self.compass.compile_file, 'fake')
 
@@ -114,7 +114,7 @@ class TestCompass(TempDirEnvironmentMixin, TestCase):
         os.mkdir(os.path.join(self.sass_dir, 'dir1', 'dir2'))
         into_dir = os.path.join('dir1', 'dir2', 'deep')
         self.load_sass(name=into_dir, content=SASS1)
-        self.compass.compile_file('deep')
+        self.compass.compile_file('deep.sass')
         self.assertEquals(os.listdir(
             os.path.join(self.css_dir, 'dir1/dir2')), ['deep.css'])
 
@@ -131,7 +131,7 @@ class TestCompass(TempDirEnvironmentMixin, TestCase):
             name=os.path.join('dir', 'into1', 'deep'), content=SASS1)
         self.load_sass(
             name=os.path.join('dir', 'into2', 'deep'), content=SASS1)
-        self.compass.compile_file('dir/into1/deep')
+        self.compass.compile_file('dir/into1/deep.sass')
         self.assertEquals(os.listdir(
             os.path.join(self.css_dir, 'dir/into1')), ['deep.css'])
         self.assertEquals(os.listdir(
