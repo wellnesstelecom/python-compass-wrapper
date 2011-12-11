@@ -50,6 +50,7 @@ class Compile(Wrapper):
             return None, name
 
     def select(self, name):
+        # TODO: Do I must forget recursive search? What if there are two files with equals name?
         sass_dir_in_config = self.parser.validator.get('sass_dir')
         assert sass_dir_in_config  # if assert, it's a bug
         in_dir, search_file = self._parse_file(name)
