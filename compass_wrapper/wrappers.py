@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-import subprocess
 from compass_wrapper.exceptions import CompassError
 import os
+import oversubprocess
 
 BINARY = 'compass'
 
@@ -19,9 +19,8 @@ class Wrapper(object):
     def __call__(self):
         command = self._command + self.parser.dumps() + self.extra_args
         try:
-            output = subprocess.check_output(
-                ' '.join(command), stderr=subprocess.STDOUT, shell=True)
-        except subprocess.CalledProcessError as call_error:
+            output = oversubprocess.check_output(' '.join(command), shell=True)
+        except oversubprocess.CalledProcessError as call_error:
             raise CompassError("""'%s' fails:
                 %s""" % (call_error.cmd, call_error.output))
         except OSError as os_error:
